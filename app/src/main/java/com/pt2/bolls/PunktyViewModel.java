@@ -1,18 +1,30 @@
 package com.pt2.bolls;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class PunktyViewModel extends ViewModel {
-    private int score;
+    private MutableLiveData<Integer> score;
 
-    public int getScore() {
+
+    public MutableLiveData<Integer> getScore() {
+        if(score == null){
+            score = new MutableLiveData<>();
+            score.setValue(0);
+        }
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(MutableLiveData<Integer> score) {
+        if(score == null){
+            score = new MutableLiveData<>();
+            score.setValue(0);
+        }
         this.score = score;
     }
+
     public void addPunkty(int s){
-        score += s;
+        int points = getScore().getValue();
+        score.setValue(points + s);
     }
 }
