@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -13,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
     private TextView punkty;
-    private Button button, button2, button3;
+    private Button button1, button2, button3;
     private int score;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +27,15 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         punkty = findViewById(R.id.textView);
-        button = findViewById(R.id.button);
+        button1 = findViewById(R.id.button1);
         button2 = findViewById(R.id.button2);
         button3= findViewById(R.id.button3);
+        if(savedInstanceState != null){
+            score = savedInstanceState.getInt("PUNKTY");
+            punkty.setText(String.valueOf(score));
+        }
 
-        button.setOnClickListener(
+        button1.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -57,5 +62,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("PUNKTY", score);
     }
 }
