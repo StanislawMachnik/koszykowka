@@ -11,11 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.pt2.bolls.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
-    private int score;
+    private  PunktyViewModel punktyViewModel;
     private ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,20 +25,17 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-
         setContentView(view);
 
-        if(savedInstanceState != null){
-            score = savedInstanceState.getInt("PUNKTY");
-            binding.textView.setText(String.valueOf(score));
-        }
+        punktyViewModel = new ViewModelProvider(this).get(PunktyViewModel.class);
+        binding.textView.setText(String.valueOf(punktyViewModel.getScore()));
 
         binding.button1.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        score++;
-                        binding.textView.setText(String.valueOf(score));
+                        punktyViewModel.addPunkty(1);
+                        binding.textView.setText(String.valueOf(punktyViewModel.getScore()));
                     }
                 }
         );
@@ -45,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        score += 2;
-                        binding.textView.setText(String.valueOf(score));
+                        punktyViewModel.addPunkty(2);
+                        binding.textView.setText(String.valueOf(punktyViewModel.getScore()));
                     }
                 }
         );
@@ -54,16 +52,10 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        score += 3;
-                        binding.textView.setText(String.valueOf(score));
+                        punktyViewModel.addPunkty(3);
+                        binding.textView.setText(String.valueOf(punktyViewModel.getScore()));
                     }
                 }
         );
-    }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("PUNKTY", score);
     }
 }
